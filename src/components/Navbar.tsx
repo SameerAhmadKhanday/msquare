@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Shield } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import Logo from "@/components/Logo";
 
 const navLinks = [
@@ -15,6 +16,7 @@ const navLinks = [
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const { user, isAdmin } = useAuth();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-secondary/95 backdrop-blur-md border-b border-secondary">
@@ -41,6 +43,19 @@ const Navbar = () => {
               {link.label}
             </Link>
           ))}
+          {user && (
+            <Link
+              to={isAdmin ? "/admin" : "/auth"}
+              className={`text-sm font-medium transition-colors flex items-center gap-1 ${
+                location.pathname === "/admin"
+                  ? "text-primary"
+                  : "text-secondary-foreground/70 hover:text-primary"
+              }`}
+            >
+              <Shield className="w-4 h-4" />
+              Admin
+            </Link>
+          )}
           <Link
             to="/contact"
             className="bg-primary text-primary-foreground px-5 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition-opacity"
@@ -83,6 +98,20 @@ const Navbar = () => {
                   {link.label}
                 </Link>
               ))}
+              {user && (
+                <Link
+                  to={isAdmin ? "/admin" : "/auth"}
+                  onClick={() => setOpen(false)}
+                  className={`font-medium transition-colors flex items-center gap-2 ${
+                    location.pathname === "/admin"
+                      ? "text-primary"
+                      : "text-secondary-foreground/80 hover:text-primary"
+                  }`}
+                >
+                  <Shield className="w-4 h-4" />
+                  Admin Panel
+                </Link>
+              )}
               <Link
                 to="/contact"
                 onClick={() => setOpen(false)}
