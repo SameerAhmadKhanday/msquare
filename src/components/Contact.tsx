@@ -88,7 +88,7 @@ const Contact = () => {
               disabled={sending}
               className="w-full bg-primary text-primary-foreground py-3.5 rounded-md font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
             >
-              {sending ? "Sending..." : "Request Free Quote"}
+              {sending ? "Sending..." : "Send Message"}
             </button>
           </motion.form>
 
