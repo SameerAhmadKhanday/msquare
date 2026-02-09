@@ -2,14 +2,28 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [sending, setSending] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Thank you! We'll be in touch within 24 hours.");
-    setForm({ name: "", email: "", phone: "", message: "" });
+    setSending(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("send-contact-email", {
+        body: form,
+      });
+      if (error) throw error;
+      toast.success("Thank you! We'll be in touch within 24 hours.");
+      setForm({ name: "", email: "", phone: "", message: "" });
+    } catch (err) {
+      console.error("Contact form error:", err);
+      toast.error("Something went wrong. Please try again or call us directly.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -71,9 +85,10 @@ const Contact = () => {
             />
             <button
               type="submit"
-              className="w-full bg-primary text-primary-foreground py-3.5 rounded-md font-semibold hover:opacity-90 transition-opacity"
+              disabled={sending}
+              className="w-full bg-primary text-primary-foreground py-3.5 rounded-md font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
             >
-              Request Free Quote
+              {sending ? "Sending..." : "Request Free Quote"}
             </button>
           </motion.form>
 
