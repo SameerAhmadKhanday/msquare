@@ -1,11 +1,5 @@
-import React, { useRef, useEffect, useState, createContext, useContext } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
-
-interface ScrollStackContextValue {
-  totalItems: number;
-}
-
-const ScrollStackContext = createContext<ScrollStackContextValue>({ totalItems: 0 });
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 interface ScrollStackItemProps {
   children: React.ReactNode;
@@ -18,25 +12,44 @@ export const ScrollStackItem: React.FC<ScrollStackItemProps> = ({
   index = 0,
   total = 1,
 }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
+
   const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ["start 0.6", "start 0.1"],
+    target: ref,
+    offset: ["start start", "end start"],
   });
 
-  const scale = useTransform(
+  // Each card scales down as the NEXT card scrolls in
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0.7]);
+  const boxShadow = useTransform(
     scrollYProgress,
     [0, 1],
-    [1, 0.92 + index * 0.005]
+    [
+      "0 4px 20px rgba(0,0,0,0.08)",
+      "0 2px 10px rgba(0,0,0,0.04)",
+    ]
   );
 
-  const y = useTransform(scrollYProgress, [0, 1], [0, -(index * 8)]);
+  // Stagger the sticky top position so cards peek below
+  const stickyTop = 96 + index * 28;
 
   return (
-    <div ref={cardRef} className="sticky top-24 mb-8 last:mb-0">
+    <div
+      ref={ref}
+      className="relative"
+      style={{ height: "80vh" }}
+    >
       <motion.div
-        style={{ scale, y }}
-        className="origin-top"
+        style={{
+          scale,
+          opacity,
+          boxShadow,
+          position: "sticky",
+          top: `${stickyTop}px`,
+          transformOrigin: "top center",
+        }}
+        className="rounded-xl overflow-hidden"
       >
         {children}
       </motion.div>
@@ -53,21 +66,18 @@ const ScrollStack: React.FC<ScrollStackProps> = ({ children, className = "" }) =
   const items = React.Children.toArray(children);
 
   return (
-    <ScrollStackContext.Provider value={{ totalItems: items.length }}>
-      <div className={`relative ${className}`}>
-        {items.map((child, i) => {
-          if (React.isValidElement<ScrollStackItemProps>(child)) {
-            return React.cloneElement(child, {
-              index: i,
-              total: items.length,
-            });
-          }
-          return child;
-        })}
-        {/* Extra spacer so last card has room to settle */}
-        <div className="h-[20vh]" />
-      </div>
-    </ScrollStackContext.Provider>
+    <div className={`relative ${className}`}>
+      {items.map((child, i) => {
+        if (React.isValidElement<ScrollStackItemProps>(child)) {
+          return React.cloneElement(child, {
+            key: i,
+            index: i,
+            total: items.length,
+          });
+        }
+        return child;
+      })}
+    </div>
   );
 };
 
