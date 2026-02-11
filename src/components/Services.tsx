@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Building2,
   Hammer,
@@ -7,8 +6,8 @@ import {
   Ruler,
   HardHat,
   Lightbulb,
-  ChevronDown,
 } from "lucide-react";
+import ScrollStack, { ScrollStackItem } from "./ScrollStack";
 
 const services = [
   {
@@ -61,22 +60,7 @@ const services = [
   },
 ];
 
-const VISIBLE_COUNT = 3;
-
 const Services = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const visibleServices = services.slice(currentIndex, currentIndex + VISIBLE_COUNT);
-  const remaining = services.length - currentIndex - VISIBLE_COUNT;
-
-  const advance = () => {
-    if (currentIndex + VISIBLE_COUNT < services.length) {
-      setCurrentIndex((prev) => prev + 1);
-    } else {
-      setCurrentIndex(0);
-    }
-  };
-
   return (
     <section id="services" className="py-24 bg-background overflow-hidden">
       <div className="container mx-auto px-4">
@@ -97,84 +81,40 @@ const Services = () => {
           </p>
         </motion.div>
 
-        {/* Stacked Queue */}
-        <div className="relative max-w-5xl mx-auto">
-          {/* Background stacked cards hint */}
-          {remaining > 0 && (
-            <>
-              <div className="absolute -bottom-3 left-4 right-4 h-16 bg-card/60 rounded-lg border border-border/40 blur-[1px] z-0" />
-              <div className="absolute -bottom-1.5 left-2 right-2 h-16 bg-card/80 rounded-lg border border-border/60 z-[1]" />
-            </>
-          )}
-
-          <div className="relative z-10 grid md:grid-cols-3 gap-6">
-            <AnimatePresence mode="popLayout">
-              {visibleServices.map((service, i) => (
-                <motion.div
-                  key={service.title}
-                  layout
-                  initial={{ opacity: 0, y: 60, scale: 0.9 }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    transition: { delay: i * 0.1, duration: 0.5, type: "spring", stiffness: 100 },
-                  }}
-                  exit={{
-                    opacity: 0,
-                    y: -40,
-                    scale: 0.95,
-                    transition: { duration: 0.3 },
-                  }}
-                  whileHover={{ y: -10, transition: { duration: 0.2 } }}
-                  className="bg-card rounded-xl p-7 border border-border hover:border-primary/50 transition-colors group cursor-default"
-                >
-                  <div
-                    className={`w-14 h-14 rounded-lg bg-gradient-to-br ${service.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}
-                  >
-                    <service.icon className="w-7 h-7 text-primary" />
+        <div className="max-w-3xl mx-auto">
+          <ScrollStack>
+            {services.map((service) => (
+              <ScrollStackItem key={service.title}>
+                <div className="bg-card rounded-xl p-8 border border-border shadow-lg hover:border-primary/50 transition-colors">
+                  <div className="flex items-start gap-6">
+                    <div
+                      className={`w-16 h-16 rounded-lg bg-gradient-to-br ${service.color} flex items-center justify-center shrink-0`}
+                    >
+                      <service.icon className="w-8 h-8 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-display text-2xl font-semibold text-foreground mb-2">
+                        {service.title}
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed text-sm mb-4">
+                        {service.description}
+                      </p>
+                      <ul className="flex flex-wrap gap-2">
+                        {service.highlights.map((h) => (
+                          <li
+                            key={h}
+                            className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium"
+                          >
+                            {h}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-
-                  <h3 className="font-display text-xl font-semibold text-foreground mb-2">
-                    {service.title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed text-sm mb-5">
-                    {service.description}
-                  </p>
-
-                  {/* Highlights */}
-                  <ul className="space-y-2">
-                    {service.highlights.map((h) => (
-                      <li
-                        key={h}
-                        className="flex items-center gap-2 text-xs text-muted-foreground"
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                        {h}
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-
-          {/* Navigate / cycle button */}
-          {services.length > VISIBLE_COUNT && (
-            <motion.button
-              onClick={advance}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="mx-auto mt-10 flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
-            >
-              {remaining > 0
-                ? `Show more services (${remaining} remaining)`
-                : "Back to start"}
-              <ChevronDown
-                className={`w-4 h-4 transition-transform ${remaining <= 0 ? "rotate-180" : ""}`}
-              />
-            </motion.button>
-          )}
+                </div>
+              </ScrollStackItem>
+            ))}
+          </ScrollStack>
         </div>
       </div>
     </section>
