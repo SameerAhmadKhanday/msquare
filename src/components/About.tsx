@@ -4,7 +4,7 @@ import ceoImage from "@/assets/tawseeg-bro-pic.jpeg";
 
 const stats = [
   { value: "250+", label: "Projects Completed" },
-  { value: "15+", label: "Years Experience" },
+  { value: "10+", label: "Years Experience" },
   { value: "98%", label: "Client Satisfaction" },
 ];
 
