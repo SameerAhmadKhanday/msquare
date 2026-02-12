@@ -50,7 +50,7 @@ const About = () => {
             </h3>
             <p className="text-primary font-semibold mt-1">{team[0].role}</p>
             <p className="text-muted-foreground text-center max-w-lg mt-3 leading-relaxed">
-              With over 15 years of experience in architecture and civil engineering,
+              With over 10 years of experience in architecture and civil engineering,
               Er. Tawseef Wani leads M-Square Architects with a vision for innovative,
               sustainable design that transforms spaces and communities.
             </p>
@@ -69,7 +69,7 @@ const About = () => {
               About Us
             </p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Trusted Engineering Excellence Since 2009
+              Trusted Engineering Excellence Since 2016
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-8">
               We are a team of passionate civil engineers dedicated to delivering exceptional
