@@ -51,7 +51,7 @@ const About = () => {
             <p className="text-primary font-semibold mt-1">{team[0].role}</p>
             <p className="text-muted-foreground text-center max-w-lg mt-3 leading-relaxed">
               With over 10 years of experience in architecture and civil engineering,
-              Er. Tawseef Wani leads M-Square Architects with a vision for innovative,
+              Er. Tawseef Wani leads M-Square Architects and Designers with a vision for innovative,
               sustainable design that transforms spaces and communities.
             </p>
           </div>

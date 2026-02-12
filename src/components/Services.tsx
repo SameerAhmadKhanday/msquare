@@ -44,10 +44,10 @@ const services = [
   },
   {
     icon: HardHat,
-    title: "Project Management",
+    title: "Interior Design",
     description:
-      "End-to-end oversight ensuring timelines, budgets, and quality standards are met on every project.",
-    highlights: ["Timeline Tracking", "Budget Control", "Safety Compliance"],
+      "Creative and functional interior solutions tailored to client needs, blending aesthetics with practicality to transform spaces into inspiring environments.",
+    highlights: ["Space Planning", "Material Selection", "3D Visualization"],
     color: "from-primary/15 to-primary/5",
   },
   {
