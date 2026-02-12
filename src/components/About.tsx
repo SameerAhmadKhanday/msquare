@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
-import ceoImage from "@/assets/ceo-placeholder.jpg";
+import ceoImage from "@/assets/tawseeg-bro-pic.jpeg";
 
 const stats = [
   { value: "250+", label: "Projects Completed" },
@@ -16,7 +16,7 @@ const strengths = [
 ];
 
 const team = [
-  { name: "Muhammad Mustafa", role: "CEO & Founder", image: ceoImage },
+  { name: "Er. Tawseef Wani", role: "CEO & Founder", image: ceoImage },
 ];
 
 const About = () => {
@@ -42,7 +42,7 @@ const About = () => {
               <img
                 src={team[0].image}
                 alt={team[0].name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-top"
               />
             </div>
             <h3 className="font-display text-2xl font-bold text-foreground">
@@ -51,7 +51,7 @@ const About = () => {
             <p className="text-primary font-semibold mt-1">{team[0].role}</p>
             <p className="text-muted-foreground text-center max-w-lg mt-3 leading-relaxed">
               With over 15 years of experience in architecture and civil engineering,
-              Muhammad Mustafa leads M-Square Architects with a vision for innovative,
+              Er. Tawseef Wani leads M-Square Architects with a vision for innovative,
               sustainable design that transforms spaces and communities.
             </p>
           </div>
