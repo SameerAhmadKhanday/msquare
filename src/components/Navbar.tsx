@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import Logo from "@/components/Logo";
 import Magnet from "@/components/Magnet";
 
-const WHATSAPP_NUMBER = "917006360082";
+const WHATSAPP_NUMBER = "917051884649";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 const navLinks = [
