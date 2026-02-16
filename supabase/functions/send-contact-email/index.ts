@@ -36,7 +36,7 @@ serve(async (req) => {
 
     const { error } = await resend.emails.send({
       from: "MSquare Architects <onboarding@resend.dev>",
-      to: ["tauseefwani7@gmail.com.com"],
+      to: ["tauseefwani7@gmail.com"],
       subject: `New Contact Form Submission from ${name}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
